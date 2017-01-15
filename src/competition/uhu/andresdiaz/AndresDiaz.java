@@ -7,22 +7,40 @@ import ch.idsia.benchmark.mario.environments.Environment;
 
 public class AndresDiaz extends BasicMarioAIAgent implements Agent
 {
-public AndresDiaz()
-{
-    super("ForwardJumpingAgent");
-    reset();
-}
+    int trueJumpCounter = 0;
+    int trueSpeedCounter = 0;
+    public AndresDiaz()
+    {
+        super("AndresDiaz");
+        reset();
+    }
 
-public boolean[] getAction()
-{ 
-    action[Mario.KEY_SPEED] = action[Mario.KEY_JUMP] = isMarioAbleToJump || !isMarioOnGround;
-    return action;
-}
+    boolean lastKeySpeed = false;
 
-public void reset()
-{
-    action = new boolean[Environment.numberOfKeys];
-    action[Mario.KEY_RIGHT] = true;
-    action[Mario.KEY_SPEED] = true;
-}
+    /*private boolean DangerOfAny()
+    {
+
+        if ((getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1) == 0 &&
+                getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1) == 0) ||
+                getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1) != 0 ||
+                getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 2) != 0 ||
+                getEnemiesCellValue(marioEgoRow, marioEgoCol + 1) != 0 ||
+                getEnemiesCellValue(marioEgoRow, marioEgoCol + 2) != 0)
+            return true;
+        else
+            return false;
+    }*/
+
+    public boolean[] getAction()
+    {
+        action[Mario.KEY_JUMP] = isMarioAbleToJump;
+        action[Mario.KEY_SPEED] = isMarioOnGround || isMarioAbleToShoot;
+        action[Mario.KEY_RIGHT] = true;
+        lastKeySpeed = action[Mario.KEY_SPEED];
+        return action;
+    }
+
+    public void reset()
+    {
+    }
 }
